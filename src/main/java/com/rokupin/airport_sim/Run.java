@@ -18,6 +18,7 @@ public class Run {
                 scenario.execute();
             } catch (ScenarioParserException e) {
                 System.err.println("Error parsing scenario file: " + e);
+                System.exit(1);
             }
         }
     }
