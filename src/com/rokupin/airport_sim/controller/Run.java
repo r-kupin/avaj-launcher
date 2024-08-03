@@ -1,8 +1,10 @@
-package main.java.com.rokupin.airport_sim;
+package com.rokupin.airport_sim.controller;
 
-import main.java.com.rokupin.airport_sim.parser.ScenarioParser;
-import main.java.com.rokupin.airport_sim.parser.ScenarioParserException;
-import main.java.com.rokupin.airport_sim.scenario.Scenario;
+import com.rokupin.airport_sim.controller.parser.ScenarioParser;
+import com.rokupin.airport_sim.controller.parser.ScenarioParserException;
+import com.rokupin.airport_sim.controller.scenario.Scenario;
+import com.rokupin.airport_sim.view.LoggerException;
+import com.rokupin.airport_sim.view.LoggerFactory;
 
 public class Run {
     public static void main(String[] args) {
@@ -12,12 +14,16 @@ public class Run {
         } else {
             String inputFilePath = args[0];
             ScenarioParser parser = new ScenarioParser();
-
             try {
+                LoggerFactory.init("console", "out");
+                LoggerFactory.init("file", "simulation.txt");
                 Scenario scenario = parser.parse(inputFilePath);
                 scenario.execute();
             } catch (ScenarioParserException e) {
                 System.err.println("Error parsing scenario file: " + e);
+                System.exit(1);
+            } catch (LoggerException e) {
+                System.err.println("Logger error: " + e);
                 System.exit(1);
             }
         }

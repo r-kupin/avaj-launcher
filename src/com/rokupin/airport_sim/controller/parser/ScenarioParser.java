@@ -1,6 +1,10 @@
-package main.java.com.rokupin.airport_sim.parser;
+package com.rokupin.airport_sim.controller.parser;
 
-import main.java.com.rokupin.airport_sim.scenario.Scenario;
+import com.rokupin.airport_sim.controller.scenario.Scenario;
+import com.rokupin.airport_sim.model.flyable.Flyable;
+import com.rokupin.airport_sim.model.flyable.factory.AircraftFactory;
+import com.rokupin.airport_sim.model.flyable.factory.AircraftFactoryException;
+import com.rokupin.airport_sim.view.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -12,31 +16,40 @@ public class ScenarioParser {
     public Scenario parse(String inputFilePath) throws ScenarioParserException {
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFilePath))) {
             String line = reader.readLine();
-            if (line == null || line.isEmpty() || !line.matches("\\d+")) {
-                throw new ScenarioParserException("Scenario file should start with a number");
-            }
+            int iterations = getIterations(line);
 
-            int iterations = Integer.parseInt(line);
             Scenario scenario = new Scenario(iterations);
+            AircraftFactory aircraftFactory = AircraftFactory.getInstance();
 
-            while ((line = reader.readLine()) != null) {
-                String[] tokens = line.split(" ");
-                if (tokens.length != 5) {
-                    throw new ScenarioParserException("Scenario line should contain 5 values");
-                }
-
-                String type = getType(tokens[0]);
-                String name = getName(tokens[1]);
-                int longitude = getLongitude(tokens[2]);
-                int latitude = getLatitude(tokens[3]);
-                int height = getHeight(tokens[4]);
-
-            }
+            while ((line = reader.readLine()) != null)
+                scenario.addAircraft(getFlyable(aircraftFactory, line));
+            LoggerFactory.get("console").log("Parsing done. File \"" + inputFilePath + "\" is OK.");
             return scenario;
         } catch (FileNotFoundException e) {
             throw new ScenarioParserException("File not found: " + inputFilePath);
         } catch (IOException e) {
             throw new ScenarioParserException("Read operation failed on file: " + inputFilePath);
+        }
+    }
+
+    private int getIterations(String line) throws ScenarioParserException {
+        if (line == null || line.isEmpty() || !line.matches("\\d+"))
+            throw new ScenarioParserException("Scenario file should start with a number");
+        int iterations = Integer.parseInt(line);
+        if (iterations < 1)
+            throw new ScenarioParserException("Amount of simulation runs should be positive");
+        return iterations;
+    }
+
+    private Flyable getFlyable(AircraftFactory aircraftFactory, String line) throws ScenarioParserException {
+        String[] tokens = line.split(" ");
+        if (tokens.length != 5)
+            throw new ScenarioParserException("Scenario line \"" + line + "\" should contain 5 values");
+        try {
+            return aircraftFactory.newAircraft(getType(tokens[0]), getName(tokens[1]),
+                    getLongitude(tokens[2]), getLatitude(tokens[3]), getHeight(tokens[4]));
+        } catch (AircraftFactoryException e) {
+            throw new ScenarioParserException("Cant create aircraft: " + e.getMessage() + " \"" + line + "\" is incorrect");
         }
     }
 
@@ -56,7 +69,7 @@ public class ScenarioParser {
             int result = Integer.parseInt(token);
             if (result > 0)
                 return result;
-            throw new ScenarioParserException("Latitude shoud be a positive number");
+            throw new ScenarioParserException("Latitude should be a positive number");
         } catch (NumberFormatException e) {
             throw new ScenarioParserException("This token " + token + " is not a valid number");
         }
