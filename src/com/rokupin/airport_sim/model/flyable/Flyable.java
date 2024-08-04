@@ -1,22 +1,22 @@
 package com.rokupin.airport_sim.model.flyable;
 
-import com.rokupin.airport_sim.model.weather.tower.WeatherTower;
+import com.rokupin.airport_sim.model.weather.tower.Tower;
 
 // Observer
 public abstract class Flyable {
-    protected WeatherTower weatherTower;
+    protected Tower tower;
 
     // enforce toString reimplementation for consistent output
     public abstract String toString();
 
     public abstract void updateConditions();
 
-    public void registerTower(WeatherTower weatherTower) {
-        this.weatherTower = weatherTower;
-        this.weatherTower.register(this);
+    public void registerTower(Tower tower) {
+        this.tower = tower;
+        this.tower.register(this);
     }
 
     public void unregisterTower() {
-        this.weatherTower.unregister(this);
+        this.tower.unregister(this);
     }
 }

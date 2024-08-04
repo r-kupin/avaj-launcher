@@ -1,6 +1,7 @@
 package com.rokupin.airport_sim.view;
 
-public class ConsoleLogger implements Logger {
+public class ConsoleLogger implements Loggable {
+    
     private static ConsoleLogger instance;
     private final boolean isErrorStream;
 

@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class FileLogger implements Logger {
+public class FileLogger implements Loggable {
 
     private static FileLogger instance;
     private final String filePath;
@@ -14,7 +14,10 @@ public class FileLogger implements Logger {
         this.filePath = filePath;
         try {
             File file = new File(filePath);
-            if (file.exists() || file.createNewFile()) {
+            for (int i = 0; file.exists(); i++) {
+                file = new File(i + "_" + filePath);
+            }
+            if (file.createNewFile()) {
                 writer = new FileWriter(file, true);
             } else {
                 throw new LoggerException("Cannot create or access the log file.");

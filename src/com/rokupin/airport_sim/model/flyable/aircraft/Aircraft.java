@@ -17,7 +17,7 @@ public abstract class Aircraft extends Flyable {
 
     @Override
     public void updateConditions() {
-        String weather = weatherTower.getWeather(coordinates);
+        String weather = tower.getState(coordinates);
         consoleLog("received weather report: " + weather);
         switch (weather) {
             case "SUN" -> handleSunnyWeather();

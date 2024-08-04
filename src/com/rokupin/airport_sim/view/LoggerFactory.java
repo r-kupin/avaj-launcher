@@ -3,9 +3,8 @@ package com.rokupin.airport_sim.view;
 import java.util.HashMap;
 import java.util.Map;
 
-// GoF Multitone
-public class LoggerFactory {
-    private static final Map<String, Logger> instances = new HashMap<>();
+public final class LoggerFactory {
+    private static final Map<String, Loggable> instances = new HashMap<>();
 
     public static void init(String logger, String arg) throws LoggerException {
         if (!instances.containsKey(logger)) {
@@ -19,12 +18,12 @@ public class LoggerFactory {
         }
     }
 
-    public static Logger get(String type) {
-        Logger logger = instances.get(type);
-        if (logger == null) {
+    public static Loggable get(String type) {
+        Loggable loggable = instances.get(type);
+        if (loggable == null) {
             System.err.println(type + " logger is not initialized.");
             System.exit(1);
         }
-        return logger;
+        return loggable;
     }
 }

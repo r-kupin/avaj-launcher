@@ -1,20 +1,21 @@
 package com.rokupin.airport_sim.controller.scenario;
 
 import com.rokupin.airport_sim.model.flyable.Flyable;
+import com.rokupin.airport_sim.model.weather.tower.Tower;
 import com.rokupin.airport_sim.model.weather.tower.WeatherTower;
 import com.rokupin.airport_sim.view.LoggerFactory;
 
 public class Scenario {
     private final int runs;
-    private final WeatherTower weatherTower;
+    private final Tower tower;
 
     public Scenario(int iterations) {
         this.runs = iterations;
-        this.weatherTower = new WeatherTower();
+        tower = new WeatherTower();
     }
 
     public void addAircraft(Flyable flyable) {
-        flyable.registerTower(weatherTower);
+        flyable.registerTower(tower);
     }
 
     public void execute() {
@@ -22,7 +23,7 @@ public class Scenario {
             String msg = "== RUN " + (i + 1) + " ===========================";
             LoggerFactory.get("console").log(msg);
             LoggerFactory.get("file").log(msg);
-            weatherTower.changeWeather();
+            tower.changeState();
         }
     }
 }

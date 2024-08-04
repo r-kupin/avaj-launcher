@@ -3,6 +3,7 @@ package com.rokupin.airport_sim.model.weather.tower;
 import com.rokupin.airport_sim.model.flyable.Flyable;
 import com.rokupin.airport_sim.model.flyable.factory.Coordinates;
 import com.rokupin.airport_sim.model.weather.provider.WeatherProvider;
+import com.rokupin.airport_sim.view.LoggerFactory;
 
 public class WeatherTower extends Tower {
     WeatherProvider weatherProvider;
@@ -12,24 +13,26 @@ public class WeatherTower extends Tower {
     }
 
     @Override
-    public void register(Flyable flyable) {
-        super.register(flyable);
+    protected void changeStateImpl() {
+        weatherProvider.generateNewWeather();
+    }
+
+    @Override
+    protected void registerImpl(Flyable flyable) {
         fileLog(flyable + " registered to weather tower.");
     }
 
     @Override
-    public void unregister(Flyable flyable) {
-        super.unregister(flyable);
+    protected void unregisterImpl(Flyable flyable) {
         fileLog(flyable + " unregistered from weather tower.");
     }
 
-    public String getWeather(Coordinates coordinates) {
+    @Override
+    public String getState(Coordinates coordinates) {
         return weatherProvider.getCurrentWeather(coordinates);
     }
 
-    public void changeWeather() {
-        weatherProvider.generateNewWeather();
-        super.conditionChanged();
+    private void fileLog(String msg) {
+        LoggerFactory.get("file").log("Tower says: " + msg);
     }
-
 }
