@@ -384,8 +384,6 @@ another class **Observable** though it's lifecycle and receive notifications eac
 changed.
 
 ```java
-import java.net.SocketImpl;
-
 abstract class Observable {
     private final List<Observer> observers;
     // state variables - add in the child class
@@ -484,9 +482,9 @@ class Main {
 Many `ObserverImplementation`s -> one `Observer` interface <--> one `Observable` interface ->
 one `ObservableImplementation`
 
-## Multitone
+## Multiton
 
-Is a *Factory* for *Singletone*s that implement the common interface.
+Is a *Factory* for *Singleton*s that implement the common interface.
 
 ```java
 interface Loggable {

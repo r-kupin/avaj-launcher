@@ -6,7 +6,7 @@ import com.rokupin.airport_sim.model.weather.provider.WeatherProvider;
 import com.rokupin.airport_sim.view.LoggerFactory;
 
 public class WeatherTower extends Tower {
-    WeatherProvider weatherProvider;
+    private final WeatherProvider weatherProvider;
 
     public WeatherTower() {
         weatherProvider = WeatherProvider.getInstance();
