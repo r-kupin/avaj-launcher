@@ -1,7 +1,7 @@
 package com.rokupin.airport_sim.model.flyable.factory;
 
 import com.rokupin.airport_sim.model.flyable.Flyable;
-import com.rokupin.airport_sim.model.flyable.aircraft.aircraft_impl.Balloon;
+import com.rokupin.airport_sim.model.flyable.aircraft.aircraft_impl.Baloon;
 import com.rokupin.airport_sim.model.flyable.aircraft.aircraft_impl.Helicopter;
 import com.rokupin.airport_sim.model.flyable.aircraft.aircraft_impl.JetPlane;
 
@@ -21,7 +21,7 @@ public class AircraftFactory {
 
     public Flyable newAircraft(String type, String name, Coordinates coordinates) throws AircraftFactoryException {
         return switch (type) {
-            case "Balloon" -> new Balloon(AircraftFactory.id++, name, coordinates);
+            case "Baloon" -> new Baloon(AircraftFactory.id++, name, coordinates);
             case "Helicopter" -> new Helicopter(AircraftFactory.id++, name, coordinates);
             case "JetPlane" -> new JetPlane(AircraftFactory.id++, name, coordinates);
             default -> throw new AircraftFactoryException("Unsupported aircraft type: " + type);

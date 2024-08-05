@@ -358,7 +358,7 @@ class AircraftFactory {
 
     public Flyable newAircraft(String type, String name, Coordinates coordinates) {
         return switch (type) {
-            case "Balloon" -> new Balloon(AircraftFactory.id++, name, coordinates);
+            case "Baloon" -> new Balloon(AircraftFactory.id++, name, coordinates);
             case "Helicopter" -> new Helicopter(AircraftFactory.id++, name, coordinates);
             case "JetPlane" -> new JetPlane(AircraftFactory.id++, name, coordinates);
         };
@@ -368,7 +368,7 @@ class AircraftFactory {
 class Main {
     public static void main(String[] args) {
         AircraftFactory factory = new AircraftFactory();
-        Flyable flyable = factory.newAircraft("Balloon", "B1", new Coordinates(/*...*/));
+        Flyable flyable = factory.newAircraft("Baloon", "B1", new Coordinates(/*...*/));
         flyable.fly();
     }
 }

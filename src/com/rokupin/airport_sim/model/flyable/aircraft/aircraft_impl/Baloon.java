@@ -4,9 +4,9 @@ import com.rokupin.airport_sim.model.flyable.aircraft.Aircraft;
 import com.rokupin.airport_sim.model.flyable.factory.Coordinates;
 
 
-public class Balloon extends Aircraft {
+public class Baloon extends Aircraft {
 
-    public Balloon(long id, String name, Coordinates coordinates) {
+    public Baloon(long id, String name, Coordinates coordinates) {
         super(id, name, coordinates);
     }
 
@@ -18,7 +18,7 @@ public class Balloon extends Aircraft {
 
     @Override
     protected void handleRainyWeather() {
-        fileLog(": Damn you rain! You messed up my balloon.");
+        fileLog(": Damn you rain! You messed up my baloon.");
         coordinates.decreaseHeight(5);
     }
 
@@ -41,6 +41,6 @@ public class Balloon extends Aircraft {
 
     @Override
     public String toString() {
-        return "Balloon#" + name + "(" + id + ")";
+        return "Baloon#" + name + "(" + id + ")";
     }
 }
